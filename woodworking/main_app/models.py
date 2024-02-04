@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 '''i need a table:
@@ -14,3 +15,6 @@ class Tool(models.Model):
         name= models.CharField(max_length = 100)
         desc = models.CharField(max_length = 100)
         tutorial = models.CharField(max_length = 100)
+
+        def get_absolute_url(self):
+                return reverse('tool_details', kwargs={'tool_id': self.id})

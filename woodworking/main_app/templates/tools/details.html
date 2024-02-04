@@ -7,5 +7,9 @@
     <p>Description: {{ tool.desc }}</p>
     <p>Tutorial: {{ tool.tutorial }}</p>
   </div>
+  <div class="card-action">
+    <a href="{% url 'tool_update' tool.id %}">Edit Tool </a>
+
+  </div>
 </div>
  {% endblock %}
