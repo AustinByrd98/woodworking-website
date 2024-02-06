@@ -27,3 +27,7 @@ class CreateTool(CreateView):
 class ToolUpdate(UpdateView):
     model= Tool
     fields= '__all__'
+
+class ToolDelete(DeleteView):
+    model= Tool
+    success_url= '/tools/'
