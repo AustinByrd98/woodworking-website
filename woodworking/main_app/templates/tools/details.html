@@ -1,16 +1,54 @@
 {% extends 'base.html' %} {% block content %}
 
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ tool.name }}</span>
+        <p>Description: {{ tool.desc }}</p>
+        <p>Tutorial: {{ tool.tutorial }}</p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'tool_update' tool.id %}">Edit Tool </a>
+        <a href="{% url 'tool_delete' tool.id %}">Delete Tool </a>
+      </div>
+    </div>
 
-<div class="card">
-  <div class="card-content">
-    <span class="card-title">{{ tool.name }}</span>
-    <p>Description: {{ tool.desc }}</p>
-    <p>Tutorial: {{ tool.tutorial }}</p>
+
   </div>
-  <div class="card-action">
-    <a href="{% url 'tool_update' tool.id %}">Edit Tool </a>
-    <a href="{% url 'tool_delete' tool.id %}">Delete Tool </a>
-
+  <div class="col s6">
+    <form action="{% url 'add_maintenance' tool.id %}" method="post">
+      {%csrf_token%} {{ maintenance_form.as_p}}
+      <input type="submit" class="btn" value="Add Maintenance Schedule">
+    </form>
+    <table class="striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Task</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for maintenance in tool.maintenance_set.all %}
+        <tr>
+          <td>{{maintenance.date}}</td>
+          <td>{{maintenance.get_maintenance_type_display}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
- {% endblock %}
+</div>
+<script>
+  var dateEL = document.getElementById('id_date')
+  M.Datepicker.init(dateEL,{
+    format:'yyyy-mm-dd',
+    default:new Date(),
+    setDefaultDate: true,
+    autoClose:true
+  })
+  var selectEl = document.getElementById('id_maintenance_type')
+  M.FormSelect.init(selectEl)
+</script>
+{% endblock %}
